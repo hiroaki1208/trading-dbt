@@ -15,7 +15,7 @@ temp_dbt:
       type: bigquery
       method: service-account
       project: trading-prod-468212
-      dataset: TEMP
+      dataset: trading
       threads: 4
       job_execution_timeout_seconds: 300
       location: US
