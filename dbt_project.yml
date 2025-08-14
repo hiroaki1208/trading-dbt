@@ -28,5 +28,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   temp_dbt:
     # Config indicated by + and applies to all files under models/dwh/
+    +persist_docs:
+      relation: true     # テーブル/ビュー自体の説明
+      columns: true      # カラム説明をDBに反映
     dwh:
       +materialized: view

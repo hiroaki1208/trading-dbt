@@ -22,4 +22,4 @@ temp_dbt:
       job_retry_deadline_seconds: 600
       keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
       job_retries: 1
-  target: dev
+  target: dev # Default target for dbt commands
