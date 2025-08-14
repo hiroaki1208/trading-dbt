@@ -56,3 +56,39 @@ models:
         description: "メモ"
         tests:
           - not_null
+
+  - name: dwh_trade_history_with_cash
+    description: "DWH層。各取引の裏のcashの移動レコードも含めた取引履歴。"
+    columns:
+      - name: event_time_jst
+        description: "レコード入力日時(JST)"
+        tests:
+          - not_null
+      - name: trade_date
+        description: "取引日(JST)"
+        tests:
+          - not_null
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: trade_type
+        description: "取引種別(buy or sell)"
+        tests:
+          - not_null
+      - name: account
+        description: "口座名(gp_fund,yuitomaru..)"
+        tests:
+          - not_null
+      - name: order_count
+        description: "取引口数"
+        tests:
+          - not_null
+      - name: price
+        description: "取引価格"
+        tests:
+          - not_null
+      - name: memo
+        description: "メモ"
+        tests:
+          - not_null

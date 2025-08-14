@@ -1,6 +1,3 @@
--- models/example/dwh_asset_status_history.sql
--- DWH asset status history view model
-
 {{ config(materialized='view') }}
 
 SELECT
