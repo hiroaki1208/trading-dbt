@@ -31,5 +31,5 @@ models:
     +persist_docs:
       relation: true     # テーブル/ビュー自体の説明
       columns: true      # カラム説明をDBに反映
-    dwh:
-      +materialized: view
+    # dwh:
+    #   +materialized: view # .sql内のconfigで指定済みなので不要
