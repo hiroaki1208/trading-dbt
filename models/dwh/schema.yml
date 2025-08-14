@@ -8,6 +8,7 @@ models:
         description: "ステータス変更日時(JST)"
         tests:
           - not_null
+          - test_is_datetime
       - name: ticker
         description: "ticker名"
         tests:
@@ -28,6 +29,7 @@ models:
         description: "レコード入力日時(JST)"
         tests:
           - not_null
+          - test_is_datetime
       - name: trade_date
         description: "取引日(JST)"
         tests:
@@ -64,6 +66,7 @@ models:
         description: "レコード入力日時(JST)"
         tests:
           - not_null
+          - test_is_datetime
       - name: trade_date
         description: "取引日(JST)"
         tests:
