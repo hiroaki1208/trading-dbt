@@ -61,20 +61,20 @@ jobs:
         run: dbt debug
 
       - name: Run dbt seeds
-        run: dbt seed --target dev
+        run: dbt seed
 
       - name: Run dbt models
-        run: dbt run --target dev
+        run: dbt run
 
       - name: Run dbt tests
-        run: dbt test --target dev
+        run: dbt test
 
       - name: Run dbt snapshots
-        run: dbt snapshot --target dev
+        run: dbt snapshot
         continue-on-error: true
 
       - name: Generate documentation
-        run: dbt docs generate --target dev
+        run: dbt docs generate
 
       - name: Upload documentation artifacts
         uses: actions/upload-artifact@v4
