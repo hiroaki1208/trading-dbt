@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: dwh_asset_status_history
+    description: "DWH asset status history view with parsed datetime"
+    columns:
+      - name: event_time_jst
+        description: "Event timestamp in JST"
+        tests:
+          - not_null
+      - name: ticker
+        description: "Asset ticker symbol"
+        tests:
+          - not_null
+      - name: is_monitor
+        description: "Monitor flag"
+        tests:
+          - not_null
+      - name: is_watch
+        description: "Watch flag"
+        tests:
+          - not_null

@@ -1,0 +1,21 @@
+# dbt
+target/
+dbt_packages/
+logs/
+
+# Google Cloud credentials
+keyfile.json
+*.json
+
+# Python
+*.pyc
+__pycache__/
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
