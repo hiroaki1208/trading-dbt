@@ -5,6 +5,14 @@ dbtプロジェクトのテンプレートリポジトリです。
 ## メモ
 - viewよりtable+cronの方が、毎回テストがちゃんと通ってよい？
 
+## docsの見方
+- ciの`Upload Documantation artifacts`を開き、URLから.zipをダウンロード
+- .zipを解凍
+- ローカルのターミナルで解凍したディレクトリにいく
+- ターミナル上で以下コマンドを実行
+  - `python -m http.server 8080`
+- chromeなどで以下URLを開く
+  - `http://localhost:8080`
 
 ## 🚀 セットアップ
 
