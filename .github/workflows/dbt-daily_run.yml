@@ -1,0 +1,44 @@
+name: Daily dbt run (dm_position)
+
+on:
+  schedule:
+    # JST 07:00 → UTC 22:00
+    - cron: '00 22 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run-dbt:
+    runs-on: ubuntu-latest
+    env:
+      DBT_PROFILES_DIR: .
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/sa.json
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Install dbt-bigquery
+        run: pip install "dbt-bigquery==1.10.*"
+
+      - name: Write SA key
+        run: 'echo "$GCP_SA_KEY_JSON" > sa.json'
+        env:
+          GCP_SA_KEY_JSON: ${{ secrets.GCP_SA_KEY_JSON }}
+
+      - name: Run dbt (deps + run + test)
+        run: |
+          dbt deps
+          dbt run  --select dm_position
+          dbt test --select dm_position
