@@ -95,3 +95,32 @@ models:
         description: "メモ"
         tests:
           - not_null
+
+  - name: dwh_asset_master
+    description: "DWH層。アセットマスタ"
+    columns:
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: asset_name
+        description: "アセット名"
+        tests:
+          - not_null
+      - name: asset_type
+        description: "アセット種別(株,金利..)"
+        tests:
+          - not_null
+      - name: is_monitor
+        description: "モニタリング対象フラグ"
+        tests:
+          - not_null
+      - name: is_watch
+        description: "取引対象フラグ"
+        tests:
+          - not_null
+      - name: latest_status_chg_time_jst
+        description: "最終ステータス変更日時(JST)"
+        tests:
+          - not_null
+          # - is_datetime
