@@ -4,7 +4,7 @@ with
 
 trading_raw as (
   SELECT
-    PARSE_DATETIME('%Y/%m/%d %H:%M:%S', timestamp_jst) AS event_time_jst,
+    event_time_jst,
     trade_date,
     ticker,
     trade_type,
@@ -13,9 +13,7 @@ trading_raw as (
     price,
     memo
   FROM
-    `trading-prod-468212.trading.raw_trade_history`
-  WHERE
-    timestamp_jst IS NOT NULL
+    {{ ref('stg_trade_history') }}
 )
 
 , cash_record as (
