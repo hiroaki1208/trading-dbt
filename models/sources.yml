@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: trading-prod
+    description: "本番環境のtradingデータベース"
+    database: trading-prod-468212 # BigQueryのプロジェクトID
+    schema: trading # BigQueryのデータセット名
+    tables:
+      - name: raw_asset_status_history
+        description: "アセットステータス変更履歴の生データ(外部テーブル)"
+        columns:
+          - name: event_time_jst_str
+            description: "ステータス変更日時(文字列)"
+          - name: ticker
+            description: "ticker名"
+          - name: is_monitor
+            description: "モニタリング対象フラグ"
+          - name: is_watch
+            description: "取引対象フラグ"
+      - name: raw_asset_name_master
+        description: "アセット名マスタの生データ(外部テーブル)"
+        columns:
+          - name: ticker
+            description: "ticker名"
+          - name: asset_type
+            description: "アセット種別"
+          - name: asset_name
+            description: "アセット名"
+      - name: raw_trade_history
+        description: "取引履歴の生データ(外部テーブル)"
+        columns:
+          - name: timestamp_jst
+            description: "取引日時(文字列)"
+          - name: trade_date
+            description: "取引日"
+          - name: ticker
+            description: "ticker名"
+          - name: trade_type
+            description: "取引種別"
+          - name: account
+            description: "口座名"
+          - name: order_count
+            description: "取引口数"
+          - name: price
+            description: "取引価格"
+          - name: memo
+            description: "メモ"
