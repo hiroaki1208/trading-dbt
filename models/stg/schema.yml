@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: stg_asset_name_master
+    description: "stg層。RAW層で外部テーブルのアセット名マスタについて型など変換している。"
+    columns:
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: asset_type
+        description: "アセット種別(株,金利..)"
+        tests:
+          - not_null
+      - name: asset_name
+        description: "アセット名"
+        tests:
+          - not_null
