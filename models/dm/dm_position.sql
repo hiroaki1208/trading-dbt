@@ -9,7 +9,7 @@
     t0.ticker,
     t1.asset_type,
     t1.asset_name,
-    SUM(CASE WHEN buy_sell = 'buy' THEN order_count ELSE -1 * order_count END) AS position,
+    SUM(CASE WHEN trade_type = 'buy' THEN order_count ELSE -1 * order_count END) AS position,
     '{{ date_1day_ago }}' AS partition_date
   FROM
     {{ ref('dwh_trade_history_with_cash') }} t0
