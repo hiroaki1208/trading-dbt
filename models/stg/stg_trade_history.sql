@@ -1,6 +1,3 @@
--- models/example/dwh_asset_status_history.sql
--- DWH asset status history view model
-
 {{ config(materialized='view') }}
 
 SELECT
@@ -13,6 +10,6 @@ SELECT
   price,
   memo
 FROM
-  `trading-prod-468212.trading.raw_trade_history`
+  {{ source('trading-prod', 'raw_trade_history') }}
 WHERE
   timestamp_jst IS NOT NULL

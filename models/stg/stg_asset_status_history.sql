@@ -6,6 +6,6 @@ SELECT
   is_monitor,
   is_watch
 FROM
-  `trading-prod-468212.trading.raw_asset_status_history`
+  {{ source('trading-prod', 'raw_asset_status_history') }}
 WHERE
   event_time_jst_str IS NOT NULL
