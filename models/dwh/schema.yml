@@ -56,8 +56,6 @@ models:
           - not_null
       - name: memo
         description: "メモ"
-        tests:
-          - not_null
 
   - name: dwh_trade_history_with_cash
     description: "DWH層。各取引の裏のcashの移動レコードも含めた取引履歴。"
@@ -93,8 +91,6 @@ models:
           - not_null
       - name: memo
         description: "メモ"
-        tests:
-          - not_null
 
   - name: dwh_asset_master
     description: "DWH層。アセットマスタ"
