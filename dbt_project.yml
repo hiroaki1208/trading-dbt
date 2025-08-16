@@ -24,9 +24,10 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 # Variables
 vars:
-  execute_date: "{{ modules.datetime.date.today().strftime('%Y-%m-%d') }}"
-  date_1day_ago: "{{ (modules.datetime.date.today() - modules.datetime.timedelta(days=1)).strftime('%Y-%m-%d') }}"
-  date_7day_ago: "{{ (modules.datetime.date.today() - modules.datetime.timedelta(days=7)).strftime('%Y-%m-%d') }}"
+  execute_date: "{{ (modules.datetime.datetime.utcnow() + modules.datetime.timedelta(hours=9)).strftime('%Y-%m-%d') }}"
+  date_1day_ago: "{{ (modules.datetime.datetime.utcnow() + modules.datetime.timedelta(hours=9) - modules.datetime.timedelta(days=1)).strftime('%Y-%m-%d') }}"
+  date_7day_ago: "{{ (modules.datetime.datetime.utcnow() + modules.datetime.timedelta(hours=9) - modules.datetime.timedelta(days=7)).strftime('%Y-%m-%d') }}"
+
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
