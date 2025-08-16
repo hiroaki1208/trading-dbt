@@ -3,7 +3,7 @@ name: Daily dbt run (dm_position)
 on:
   schedule:
     # JST 07:00 → UTC 22:00
-    - cron: '00 22 * * *'
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -40,5 +40,5 @@ jobs:
       - name: Run dbt (deps + run + test)
         run: |
           dbt deps
-          dbt run  --select dm_position
-          dbt test --select dm_position
+          dbt run  --target prod --select dm_position
+          dbt test --target prod --select dm_position
