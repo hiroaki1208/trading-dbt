@@ -1,9 +1,9 @@
 version: 2
 
 sources:
-  - name: trading-prod
-    description: "本番環境のtradingデータベース"
-    database: trading-prod-468212 # BigQueryのプロジェクトID
+  - name: "trading-{{ target.name }}"
+    description: "{{ target.name }}環境のtradingデータベース"
+    database: "{{ 'trading-prod-468212' if target.name == 'prod' else 'trading-dev-469206' }}" # BigQueryのプロジェクトID
     schema: trading # BigQueryのデータセット名
     tables:
       - name: raw_asset_status_history
@@ -45,3 +45,16 @@ sources:
             description: "取引価格"
           - name: memo
             description: "メモ"
+      - name: raw_price_data
+        description: "価格データの生データ.GCSからdata transferで定期的にインポートされる.appendしているので、同じデータが重複している可能性あり"
+        columns:
+          - name: DATE
+            description: "日付"
+          - name: ticker
+            description: "ticker名"
+          - name: ohlc_type
+            description: "価格種別.Open/High/Low/Close"
+          - name: price
+            description: "価格"
+          - name: fetch_time_str
+            description: "データ取得時刻_文字列(%Y-%m-%d %H:%M:%S)"

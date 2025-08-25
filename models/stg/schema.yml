@@ -73,3 +73,26 @@ models:
       - name: memo
         description: "メモ"
 
+  - name: stg_price_data
+    description: "stg層。GCSからData Transferで定期的にインポートされる価格データについて型など変換している。同一データが重複している可能性あり。"
+    columns:
+      - name: base_date
+        description: "価格基準日"
+        tests:
+          - not_null
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: ohlc_type
+        description: "価格種別(Open/High/Low/Close)"
+        tests:
+          - not_null
+      - name: price
+        description: "価格"
+        # tests:
+          # - not_null -- nullもありえる(ex. 指数のHigh/Low)
+      - name: fetch_time_jst
+        description: "データ取得日時(JST)"
+        tests:
+          - not_null

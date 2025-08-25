@@ -64,3 +64,27 @@ models:
         tests:
           - not_null
           # - is_datetime
+
+  - name: dwh_price_history
+    description: "DWH層。価格履歴"
+    columns:
+      - name: base_date
+        description: "価格基準日"
+        tests:
+          - not_null
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: ohlc_type
+        description: "価格種別(Open/High/Low/Close)"
+        tests:
+          - not_null
+      - name: price
+        description: "価格"
+        # tests:
+          # - not_null
+      - name: fetch_time_jst
+        description: "データ取得日時(JST)"
+        tests:
+          - not_null
