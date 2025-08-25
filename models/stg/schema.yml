@@ -90,7 +90,7 @@ models:
           - not_null
       - name: price
         description: "価格"
-        tests:
+        # tests:
           # - not_null -- nullもありえる(ex. 指数のHigh/Low)
       - name: fetch_time_jst
         description: "データ取得日時(JST)"
