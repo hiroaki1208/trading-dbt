@@ -35,7 +35,7 @@ jobs:
       - name: Write SA key
         run: 'echo "$GCP_SA_KEY_JSON" > sa.json'
         env:
-          GCP_SA_KEY_JSON: ${{ secrets.GCP_SA_KEY }}
+          GCP_SA_KEY_JSON: ${{ secrets.TERRAFORM_GCA_PROD }}
 
       - name: Run dbt (deps + run + test)
         run: |
