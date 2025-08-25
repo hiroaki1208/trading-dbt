@@ -67,10 +67,6 @@ jobs:
           fi
           echo "GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/keyfile.json" >> $GITHUB_ENV
 
-      - name: Use CI profiles
-        run: |
-          cp profiles.yml profiles.yml
-
       - name: Install dbt packages
         run: dbt deps
 
