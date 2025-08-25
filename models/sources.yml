@@ -45,3 +45,16 @@ sources:
             description: "取引価格"
           - name: memo
             description: "メモ"
+      - name: raw_price_data
+        description: "価格データの生データ.GCSからdata transferで定期的にインポートされる.appendしているので、同じデータが重複している可能性あり"
+        columns:
+          - name: DATE
+            description: "日付"
+          - name: ticker
+            description: "ticker名"
+          - name: ohlc_type
+            description: "価格種別.Open/High/Low/Close"
+          - name: price
+            description: "価格"
+          - name: fetch_time_str
+            description: "データ取得時刻_文字列(%Y-%m-%d %H:%M:%S)"
