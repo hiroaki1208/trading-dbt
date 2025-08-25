@@ -1,6 +1,6 @@
 {{ config(materialized='view') }}
 
-SELECT
+SELECT DISTINCT
   date as base_date,
   ticker,
   ohlc_type,
