@@ -58,3 +58,61 @@ sources:
             description: "価格"
           - name: fetch_time_str
             description: "データ取得時刻_文字列(%Y-%m-%d %H:%M:%S)"
+
+  - name: trading-dev
+    description: "開発環境のtradingデータベース"
+    database: trading-dev-469206 # BigQueryのプロジェクトID
+    schema: trading # BigQueryのデータセット名
+    tables:
+      - name: raw_asset_status_history
+        description: "アセットステータス変更履歴の生データ(外部テーブル)"
+        columns:
+          - name: event_time_jst_str
+            description: "ステータス変更日時(文字列)"
+          - name: ticker
+            description: "ticker名"
+          - name: is_monitor
+            description: "モニタリング対象フラグ"
+          - name: is_watch
+            description: "取引対象フラグ"
+      - name: raw_asset_name_master
+        description: "アセット名マスタの生データ(外部テーブル)"
+        columns:
+          - name: ticker
+            description: "ticker名"
+          - name: asset_type
+            description: "アセット種別"
+          - name: asset_name
+            description: "アセット名"
+      - name: raw_trade_history
+        description: "取引履歴の生データ(外部テーブル)"
+        columns:
+          - name: timestamp_jst
+            description: "取引日時(文字列)"
+          - name: trade_date
+            description: "取引日"
+          - name: ticker
+            description: "ticker名"
+          - name: trade_type
+            description: "取引種別"
+          - name: account
+            description: "口座名"
+          - name: order_count
+            description: "取引口数"
+          - name: price
+            description: "取引価格"
+          - name: memo
+            description: "メモ"
+      - name: raw_price_data
+        description: "価格データの生データ.GCSからdata transferで定期的にインポートされる.appendしているので、同じデータが重複している可能性あり"
+        columns:
+          - name: DATE
+            description: "日付"
+          - name: ticker
+            description: "ticker名"
+          - name: ohlc_type
+            description: "価格種別.Open/High/Low/Close"
+          - name: price
+            description: "価格"
+          - name: fetch_time_str
+            description: "データ取得時刻_文字列(%Y-%m-%d %H:%M:%S)"

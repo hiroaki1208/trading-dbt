@@ -10,6 +10,6 @@ SELECT
   price,
   memo
 FROM
-  {{ source('trading-prod', 'raw_trade_history') }}
+  {{ source('trading-' ~ target.name, 'raw_trade_history') }}
 WHERE
   timestamp_jst IS NOT NULL
