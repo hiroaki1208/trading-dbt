@@ -1,8 +1,19 @@
 # PR時にdbtのCIを実行するGitHub Actionsのワークフローファイル
-name: dbt CI
+name: dbt CI/CD
 
 on:
   pull_request:
+    branches: [main, master]
+    paths:
+      - 'models/**'
+      - 'macros/**'
+      - 'tests/**'
+      - 'seeds/**'
+      - 'snapshots/**'
+      - 'dbt_project.yml'
+      - 'packages.yml'
+      - 'profiles.yml'
+  push:
     branches: [main, master]
     paths:
       - 'models/**'
@@ -20,6 +31,7 @@ jobs:
     
     env:
       DBT_PROFILES_DIR: .
+      DBT_TARGET: ${{ github.event_name == 'push' && 'prod' || 'dev' }}  # PR時はdev、push時はprod
       
     steps:
       - name: Checkout code
@@ -45,9 +57,14 @@ jobs:
 
       - name: Set up Google Cloud credentials
         env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+          GOOGLE_CREDENTIALS_DEV: ${{ secrets.TERRAFORM_GCA_DEV }}
+          GOOGLE_CREDENTIALS_PROD: ${{ secrets.TERRAFORM_GCA_PROD }}
         run: |
-          echo "$GOOGLE_CREDENTIALS" > keyfile.json
+          if [ "$DBT_TARGET" = "prod" ]; then
+            echo "$GOOGLE_CREDENTIALS_PROD" > keyfile.json
+          else
+            echo "$GOOGLE_CREDENTIALS_DEV" > keyfile.json
+          fi
           echo "GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/keyfile.json" >> $GITHUB_ENV
 
       - name: Use CI profiles
@@ -63,13 +80,13 @@ jobs:
       - name: Parse dbt project
         run: dbt parse
 
-      - name: Run dbt models (dry-run)
-        run: dbt run --target dev
+      - name: Run dbt models
+        run: dbt run --target $DBT_TARGET
 
       - name: Run dbt tests
-        run: dbt test --target dev
+        run: dbt test --target $DBT_TARGET
 
       - name: Generate and upload docs
         run: |
-          dbt docs generate --target dev
+          dbt docs generate --target $DBT_TARGET
         if: success()
