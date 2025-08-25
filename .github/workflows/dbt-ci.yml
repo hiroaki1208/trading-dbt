@@ -82,7 +82,11 @@ jobs:
       - name: Run dbt tests
         run: dbt test --target $DBT_TARGET
 
-      - name: Generate and upload docs
-        run: |
-          dbt docs generate --target $DBT_TARGET
-        if: success()
+      - name: Generate documentation
+        run: dbt docs generate --target $DBT_TARGET
+
+      - name: Upload documentation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt-docs
+          path: target/
