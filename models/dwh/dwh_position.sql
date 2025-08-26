@@ -69,7 +69,6 @@ explode_order AS (
     t0.ticker,
     SUM(t0.order_count_buy) AS position, -- 買いポジション量
     AVG(t0.price_buy) AS avg_buy_price, -- 平均購入単価
-    -- DATE('{{ date_1day_ago }}') AS partition_date
   FROM
     buy_sell_match_data t0
   WHERE

@@ -88,3 +88,35 @@ models:
         description: "データ取得日時(JST)"
         tests:
           - not_null
+  - name: dm_position
+    description: "特定の日付時点でのポジション状況を集計したテーブル"
+    columns:
+      - name: account
+        description: "口座名(gp_fund,yuitomaru..)"
+        tests:
+          - not_null
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: position
+        description: "保有数量.ロングのみなので、マイナスはないはず"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: avg_buy_price
+        description: "平均購入単価"
+        tests:
+          - not_null
+      - name: net_position
+        description: "ネットポジション.検算用.ロングのみなので、マイナスはないはず"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: partition_date
+        description: "基準日（パーティション用）"
+        tests:
+          - not_null
+
