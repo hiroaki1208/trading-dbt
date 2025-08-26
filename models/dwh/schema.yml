@@ -88,7 +88,7 @@ models:
         description: "データ取得日時(JST)"
         tests:
           - not_null
-  - name: dm_position
+  - name: dwh_daily_position
     description: "特定の日付時点でのポジション状況を集計したテーブル"
     columns:
       - name: account
