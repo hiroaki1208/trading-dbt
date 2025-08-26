@@ -47,7 +47,6 @@ cash_amount_data AS (
     t1.price * t0.position AS current_value -- 評価額
   FROM
     {{ ref('dwh_daily_position') }} t0
-    LEFT JOIN {{ ref('dwh_price_history') }} t1 using (ticker)
     LEFT JOIN (
       SELECT *
       FROM {{ ref('dwh_price_history') }}
