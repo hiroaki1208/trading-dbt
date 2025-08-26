@@ -30,3 +30,50 @@ models:
         description: "基準日（パーティション用）"
         tests:
           - not_null
+
+  - name: dm_daily_unrealized_value
+    description: "DM層。含み益を日次で集計したテーブル"
+    columns:
+      - name: account
+        description: "口座名(gp_fund,yuitomaru..)"
+        tests:
+          - not_null
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: asset_type
+        description: "アセット種別(株,金利..)"
+        tests:
+          - not_null
+      - name: asset_name
+        description: "アセット名"
+        tests:
+          - not_null
+      - name: position
+        description: "保有数量"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+
+      - name: avg_buy_price
+        description: "平均取得価格"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: close_price
+        description: "基準日時点の終値"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: unrealized_value
+        description: "基準日時点の含み益"
+        tests:
+          - not_null
+      - name: partition_date
+        description: "基準日（パーティション用）"
+        tests:
+          - not_null
