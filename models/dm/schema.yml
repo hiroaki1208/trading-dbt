@@ -85,6 +85,10 @@ models:
         description: "基準日時点の含み益"
         tests:
           - not_null
+      - name: unrealized_return_ratio
+        description: "基準日時点の含み益率.実数なので、%とする場合は100倍すること"
+        tests:
+          - not_null
       - name: partition_date
         description: "基準日（パーティション用）"
         tests:

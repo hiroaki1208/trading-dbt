@@ -20,6 +20,7 @@ SELECT
   t0.avg_buy_price,
   t1.price AS close_price, -- 基準日時点の価格
   (t1.price - t0.avg_buy_price) * t0.position AS unrealized_value, -- 含み益
+  (t1.price - t0.avg_buy_price) / t0.avg_buy_price AS unrealized_return_ratio, -- 含み益率(%)
   DATE('{{ date_1day_ago }}') AS partition_date
 FROM
   {{ ref('dwh_daily_position') }} t0
