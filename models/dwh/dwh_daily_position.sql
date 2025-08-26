@@ -78,6 +78,3 @@ explode_order AS (
   GROUP BY
     account,
     ticker
-  ORDER BY
-    account,
-    ticker
