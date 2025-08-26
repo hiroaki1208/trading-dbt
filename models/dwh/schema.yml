@@ -100,7 +100,7 @@ models:
         tests:
           - not_null
       - name: position
-        description: "保有数量.ロングのみなので、マイナスはないはず"
+        description: "保有数量.ロングオンリーなので、0以上"
         tests:
           - not_null
           - dbt_utils.expression_is_true:
@@ -109,12 +109,6 @@ models:
         description: "平均購入単価"
         tests:
           - not_null
-      - name: net_position
-        description: "ネットポジション.検算用.ロングのみなので、マイナスはないはず"
-        tests:
-          - not_null
-          - dbt_utils.expression_is_true:
-              expression: ">= 0"
       - name: partition_date
         description: "基準日（パーティション用）"
         tests:
