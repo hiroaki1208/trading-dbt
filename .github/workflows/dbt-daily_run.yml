@@ -40,5 +40,5 @@ jobs:
       - name: Run dbt (deps + run + test)
         run: |
           dbt deps
-          dbt run  --target prod --select dm_position
-          dbt test --target prod --select dm_position
+          dbt run  --target prod --select dwh_daily_position
+          dbt test --target prod --select dwh_daily_position
