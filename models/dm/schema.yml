@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: dm_daily_aum
+    description: "DM層。AUM(Asset Under Management)を日次で集計したテーブル"
+    columns:
+      - name: account
+        description: "口座名(gp_fund,yuitomaru..)"
+        tests:
+          - not_null
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: asset_type
+        description: "アセット種別(株,金利..)"
+        tests:
+          - not_null
+      - name: asset_name
+        description: "アセット名"
+        tests:
+          - not_null
+      - name: current_value
+        description: "時価評価額. cashは現金、その他は保有数量×基準日時点の終値"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: partition_date
+        description: "基準日（パーティション用）"
+        tests:
+          - not_null
