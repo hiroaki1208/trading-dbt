@@ -31,7 +31,7 @@ models:
         tests:
           - not_null
 
-  - name: dm_daily_unrealized_value
+  - name: dm_daily_position_value
     description: "DM層。含み益を日次で集計したテーブル"
     columns:
       - name: account
