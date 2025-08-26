@@ -20,7 +20,7 @@ explode_order AS (
     ticker,
     trade_type,
     account,
-    order_count,
+    1 AS order_count,
     price
   FROM
     {{ ref('stg_trade_history') }} t0
