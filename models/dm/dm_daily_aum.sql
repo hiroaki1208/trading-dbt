@@ -48,11 +48,14 @@ cash_amount_data AS (
   FROM
     {{ ref('dwh_daily_position') }} t0
     LEFT JOIN {{ ref('dwh_price_history') }} t1 using (ticker)
+    LEFT JOIN (
+      SELECT *
+      FROM {{ ref('dwh_price_history') }}
+      WHERE base_date = DATE('{{ date_1day_ago }}') and ohlc_type = 'close'
+    ) t1 using (ticker)
     LEFT JOIN {{ ref('dwh_asset_master') }} t2 using (ticker)
   WHERE
     t0.partition_date = DATE('{{ date_1day_ago }}')
-    and t1.base_date = DATE('{{ date_1day_ago }}') -- 基準日時点の価格
-    and t1.ohlc_type = 'close' -- 終値
 )
 
 SELECT
