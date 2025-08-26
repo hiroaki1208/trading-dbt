@@ -63,12 +63,12 @@ explode_order AS (
 )
 
 -- ポジションと平均購入単価作成
-, position_data AS (
   SELECT
     t0.account,
     t0.ticker,
     SUM(t0.order_count_buy) AS position, -- 買いポジション量
     AVG(t0.price_buy) AS avg_buy_price, -- 平均購入単価
+    DATE('{{ date_1day_ago }}') AS partition_date
   FROM
     buy_sell_match_data t0
   WHERE
@@ -81,38 +81,3 @@ explode_order AS (
   ORDER BY
     account,
     ticker
-)
-
--- test用: ネットポジションが>=0なのかの確認
-, position_check AS (
-  SELECT
-    account,
-    ticker,
-    SUM(CASE WHEN trade_type = 'buy' THEN order_count ELSE -1 * order_count END) AS net_position
-  FROM
-    {{ ref('stg_trade_history') }}
-  WHERE
-    trade_date <= DATE('{{ date_1day_ago }}')
-    and ticker != 'cash' -- cash以外
-  GROUP BY
-    account,
-    ticker
-)
-
-  SELECT
-    t0.account,
-    t0.ticker,
-    t0.position, -- 買いポジション量
-    t0.avg_buy_price, -- 平均購入単価
-    t1.net_position, -- test用: ネットポジションが>=0なのかの確認
-    DATE('{{ date_1day_ago }}') AS partition_date
-  FROM
-    position_data t0
-    LEFT JOIN position_check t1 USING(account, ticker)
-  ORDER BY
-    account,
-    ticker
-
-
-
-;
