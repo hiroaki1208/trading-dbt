@@ -20,6 +20,18 @@ models:
         description: "アセット名"
         tests:
           - not_null
+      - name: position
+        description: "保有数量. cashは現金、その他は保有数量"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: value_price
+        description: "基準日時点の価格. cashは1、その他は基準日時点の終値"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
       - name: current_value
         description: "時価評価額. cashは現金、その他は保有数量×基準日時点の終値"
         tests:

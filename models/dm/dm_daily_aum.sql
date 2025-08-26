@@ -20,6 +20,8 @@ cash_amount_data AS (
     ticker,
     'cash' AS asset_type,
     'cash' AS asset_name,
+    SUM(CASE WHEN trade_type = 'buy' THEN price * order_count ELSE -1 * price * order_count END) AS position, -- cashはposition=current_valueとしている
+    1 AS value_price, -- cashの単価は1
     SUM(CASE WHEN trade_type = 'buy' THEN price * order_count ELSE -1 * price * order_count END) AS current_value
   FROM
     {{ ref('dwh_trade_history_with_cash') }}
@@ -43,7 +45,7 @@ cash_amount_data AS (
     t2.asset_name,
     t0.position,
     t0.avg_buy_price,
-    t1.price AS close_price, -- 基準日時点の価格
+    t1.price AS value_price, -- 基準日時点の価格
     t1.price * t0.position AS current_value -- 評価額
   FROM
     {{ ref('dwh_daily_position') }} t0
@@ -62,6 +64,8 @@ SELECT
   ticker,
   asset_type,
   asset_name,
+  position,
+  value_price,
   current_value,
   DATE('{{ date_1day_ago }}') AS partition_date
 FROM
@@ -72,6 +76,8 @@ SELECT
   ticker,
   asset_type,
   asset_name,
+  position,
+  value_price,
   current_value,
   DATE('{{ date_1day_ago }}') AS partition_date
 FROM
