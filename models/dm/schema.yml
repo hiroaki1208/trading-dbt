@@ -1,8 +1,8 @@
 version: 2
 
 models:
-  - name: dm_position
-    description: "特定の日付時点でのポジション状況を集計したテーブル"
+  - name: dm_daily_aum
+    description: "DM層。AUM(Asset Under Management)を日次で集計したテーブル"
     columns:
       - name: account
         description: "口座名(gp_fund,yuitomaru..)"
@@ -14,14 +14,80 @@ models:
           - not_null
       - name: asset_type
         description: "アセット種別(株,金利..)"
+        tests:
+          - not_null
       - name: asset_name
-        description: "資産名"
+        description: "アセット名"
+        tests:
+          - not_null
       - name: position
-        description: "保有数量.ロングのみなので、マイナスはないはず"
+        description: "保有数量. cashは現金、その他は保有数量"
         tests:
           - not_null
           - dbt_utils.expression_is_true:
               expression: ">= 0"
+      - name: value_price
+        description: "基準日時点の価格. cashは1、その他は基準日時点の終値"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: current_value
+        description: "時価評価額. cashは現金、その他は保有数量×基準日時点の終値"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: partition_date
+        description: "基準日（パーティション用）"
+        tests:
+          - not_null
+
+  - name: dm_daily_position_value
+    description: "DM層。含み益を日次で集計したテーブル"
+    columns:
+      - name: account
+        description: "口座名(gp_fund,yuitomaru..)"
+        tests:
+          - not_null
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: asset_type
+        description: "アセット種別(株,金利..)"
+        tests:
+          - not_null
+      - name: asset_name
+        description: "アセット名"
+        tests:
+          - not_null
+      - name: position
+        description: "保有数量"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: avg_buy_price
+        description: "平均取得価格"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: close_price
+        description: "基準日時点の終値"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: unrealized_value
+        description: "基準日時点の含み益"
+        tests:
+          - not_null
+      - name: unrealized_return_ratio
+        description: "基準日時点の含み益率.実数なので、%とする場合は100倍すること"
+        tests:
+          - not_null
       - name: partition_date
         description: "基準日（パーティション用）"
         tests:
