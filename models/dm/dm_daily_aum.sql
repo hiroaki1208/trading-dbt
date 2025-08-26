@@ -1,7 +1,7 @@
 -- 基準日のClose時点でのAUMを算出
 {{ config(
     materialized='incremental',
-    -- unique_key=['account', 'ticker', 'partition_date'],
+    unique_key=['account', 'ticker', 'partition_date'],
     partition_by={
         "field": "partition_date",
         "data_type": "date"
