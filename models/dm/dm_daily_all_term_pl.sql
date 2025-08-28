@@ -19,8 +19,8 @@ all_trade_data AS (
   SELECT
     account,
     ticker,
-    SUM( (IF trade_type = 'buy', price * order_count, null) ) AS total_buy_amount, -- 購入金額合計
-    SUM( (IF trade_type = 'sell', price * order_count, null) ) AS sell_amount_already -- 売却金額合計
+    SUM(CASE WHEN trade_type = 'buy' THEN price * order_count ELSE NULL END) AS total_buy_amount, -- 購入金額合計
+    SUM(CASE WHEN trade_type = 'sell' THEN price * order_count ELSE NULL END) AS sell_amount_already -- 売却金額合計
   FROM
     {{ ref('stg_trade_history') }}
   WHERE
