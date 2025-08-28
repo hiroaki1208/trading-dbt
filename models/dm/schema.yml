@@ -92,3 +92,53 @@ models:
         description: "基準日（パーティション用）"
         tests:
           - not_null
+
+  - name: dm_daily_all_term_pl
+    description: "DM層。全期間での通算PLを日次で集計したテーブル"
+    columns:
+      - name: account
+        description: "口座名(gp_fund,yuitomaru..)"
+        tests:
+          - not_null
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: asset_type
+        description: "アセット種別(株,金利..)"
+        tests:
+          - not_null
+      - name: asset_name
+        description: "アセット名"
+        tests:
+          - not_null
+      - name: total_buy_amount
+        description: "全期間総購入金額"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      - name: sell_amount_already
+        description: "全期間における実現済みの売却金額"
+        tests:
+          - not_null
+      - name: position_close_amount
+        description: "基準日時点ポジション解消金額. 基準日時点の終値×保有数量"
+        tests:
+          - not_null
+      - name: total_sell_amount
+        description: "全期間における総売却額.含み益も含む"
+        tests:
+          - not_null
+      - name: pl_amount_all_term
+        description: "全期間における通算PL変化額. (実現済み売却金額 + 含み益) - 総購入金額"
+        tests:
+          - not_null
+      - name: pl_ratio_all_term
+        description: "全期間における通算PL変化率.%とする場合はx100. (実現済み売却金額 + 含み益) / 総購入金額 -1"
+        tests:
+          - not_null
+      - name: partition_date
+        description: "基準日（パーティション用）"
+        tests:
+          - not_null
