@@ -19,17 +19,60 @@ ranked_price_data AS (
     {{ ref('stg_price_data') }}
 )
 
-SELECT
-  base_date,
-  ticker,
-  ohlc_type,
-  price,
-  fetch_time_jst
-FROM
-  ranked_price_data
-WHERE
-  rn = 1
-ORDER BY
-  base_date,
-  ticker,
-  ohlc_type
+, price_data_raw AS (
+  SELECT
+    base_date,
+    ticker,
+    ohlc_type,
+    price,
+    fetch_time_jst
+  FROM
+    ranked_price_data
+  WHERE
+    rn = 1
+)
+
+-- 追加データ
+-- BTCJPYなど、直接取得できないデータを追加
+, additional_data_btcjpy AS (
+  SELECT
+    base_date,
+    'BTC-JPY' AS ticker,
+    'close' AS ohlc_type,
+    ROUND(
+      MAX(CASE WHEN ticker = 'BTC-USD' AND ohlc_type = 'close' THEN price END) *
+      MAX(CASE WHEN ticker = 'JPY=X' AND ohlc_type = 'close' THEN price END)
+    , 0) AS price,
+    MAX(fetch_time_jst) AS fetch_time_jst
+  FROM
+    price_data_raw
+  WHERE
+    ticker IN ('BTC-USD', 'JPY=X')
+  GROUP BY
+    base_date
+)
+
+
+, additional_data_ethjpy AS (
+  SELECT
+    base_date,
+    'ETH-JPY' AS ticker,
+    'close' AS ohlc_type,
+    ROUND(
+      MAX(CASE WHEN ticker = 'ETH-USD' AND ohlc_type = 'close' THEN price END) *
+      MAX(CASE WHEN ticker = 'JPY=X' AND ohlc_type = 'close' THEN price END)
+    , 0) AS price,
+    MAX(fetch_time_jst) AS fetch_time_jst
+  FROM
+    price_data_raw
+  WHERE
+    ticker IN ('ETH-USD', 'JPY=X')
+  GROUP BY
+    base_date
+)
+
+SELECT * FROM price_data_raw
+UNION ALL
+SELECT * FROM additional_data_btcjpy
+UNION ALL
+SELECT * FROM additional_data_ethjpy
