@@ -23,3 +23,6 @@ FROM
   LEFT JOIN {{ ref('stg_asset_name_master') }} t1 ON t0.ticker = t1.ticker
 WHERE
   rn = 1
+
+-- SELECT * FROM cte3 /*
+-- */
