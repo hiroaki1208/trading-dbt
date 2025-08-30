@@ -24,9 +24,21 @@ dbtプロジェクトのテンプレートリポジトリです。
   - 複数の分析やdmで使いまわしそうなもの
   - 複雑で処理にコストがかかるならtableに、そうでもない（毎回計算コストかかっても問題じゃない）ならviewっぽい
     - 今回は、price_historyだけtableにしてみる(レコード多めなので)
+- (ここにセマンティックレイヤーを入れることもある？)
 - dm
   - ダッシュボードなど１用途に１対応
   - 基本table（速さ、安定性重視らしい）
+
+# ローカルでdbt実行方法
+- dbt-bigqueryをインストールしている仮想環境をアクティブenv2
+- dbtのレポジトリへ移動
+- credentialをセット
+  - `set GOOGLE_APPLICATION_CREDENTIALS=C:\Users\hiroa\Documents\credentials\terraform-gha-dev.json`
+- `dbt deps`で依存パッケージをインストール
+- `set PYTHONUTF8=1`でutf8で読み込むように変更
+- コマンド実行
+  - analysesのコンパイル
+    - `dbt compile --select path:analyses/`
 
 ## 🚀 セットアップ
 
