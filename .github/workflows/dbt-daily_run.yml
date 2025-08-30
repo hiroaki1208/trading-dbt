@@ -1,9 +1,9 @@
-name: Daily dbt run (dm_position)
+name: Daily dbt run
 
 on:
   schedule:
-    # JST 07:00 → UTC 22:00
-    - cron: '0 * * * *'
+    # JST 08:00 → UTC 23:00
+    - cron: '0 23 * * *'
   workflow_dispatch:
 
 permissions:
