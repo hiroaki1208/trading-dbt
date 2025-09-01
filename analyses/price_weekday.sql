@@ -1,4 +1,3 @@
--- 基準日のClose時点でのポジション&含み益を算出
 {%- set date_1day_ago = var('date_1day_ago', '9999-12-31') -%}
 {%- set date_7day_ago = var('date_7day_ago', '9999-12-31') -%}
 

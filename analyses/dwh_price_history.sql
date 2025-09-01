@@ -1,9 +1,5 @@
-{{ config(materialized='view') }}
-
--- 価格データの生データを整形
--- 同じticker x date x ohlc_typeの組み合わせでもレコードが複数存在する場合がある
--- その場合はfetch_time_strが最新のものを採用する
--- 土日のデータは前の金曜日の値で補完する
+{%- set date_1day_ago = var('date_1day_ago', '9999-12-31') -%}
+{%- set date_7day_ago = var('date_7day_ago', '9999-12-31') -%}
 
 WITH
 
@@ -127,3 +123,5 @@ UNION ALL
 SELECT * FROM additional_data_btcjpy
 UNION ALL
 SELECT * FROM additional_data_ethjpy
+WHERE
+  base_date BETWEEN DATE('{{ date_7day_ago }}') AND DATE('{{ date_1day_ago }}')
