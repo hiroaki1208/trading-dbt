@@ -36,7 +36,8 @@ ranked_price_data AS (
 -- 全期間の日付範囲を生成（固定範囲）
 , date_range AS (
   SELECT
-    date_day
+    date_day,
+    {{ to_prev_weekday('date_day') }} AS date_day_weekday
   FROM
     UNNEST(GENERATE_DATE_ARRAY('2000-01-01', '2050-12-31', INTERVAL 1 DAY)) AS date_day
 )
@@ -53,17 +54,16 @@ ranked_price_data AS (
 , all_combinations AS (
   SELECT
     dr.date_day AS base_date,
+    dr.date_day_weekday AS base_date_weekday,
     toc.ticker,
     toc.ohlc_type
   FROM date_range dr
   CROSS JOIN ticker_ohlc_combinations toc
-  WHERE dr.date_day >= (SELECT MIN(base_date) FROM price_data_raw_weekday WHERE ticker = toc.ticker)
-    AND dr.date_day <= (SELECT MAX(base_date) FROM price_data_raw_weekday WHERE ticker = toc.ticker)
-
 )
 
 -- 平日データを全日付に拡張（土日は前の金曜日の値で補完）
--- price_data_raw_weekdayの日付範囲にフィルター
+-- 土日の値があるtickerは、その値を採用(ex. BTC)
+-- 土日の値がないtickerは、前の金曜の日付としたbase_date_weekdayにjoinすることで補完
 , price_data_raw_daily AS (
   SELECT
     ac.base_date,
@@ -77,9 +77,12 @@ ranked_price_data AS (
     AND ac.ticker = pwd.ticker
     AND ac.ohlc_type = pwd.ohlc_type
   LEFT JOIN price_data_raw_weekday pwd_prev
-    ON {{ to_prev_weekday('ac.base_date') }} = pwd_prev.base_date
+    ON ac.base_date_weekday = pwd_prev.base_date
     AND ac.ticker = pwd_prev.ticker
     AND ac.ohlc_type = pwd_prev.ohlc_type
+  WHERE
+    -- priceがNULLのdate x tickerの組み合わせは、rawにそもそもないデータなので除外
+    COALESCE(pwd.price, pwd_prev.price) IS NOT NULL
 )
 
 -- 追加データ
