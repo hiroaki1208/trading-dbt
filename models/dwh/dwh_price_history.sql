@@ -36,13 +36,9 @@ ranked_price_data AS (
 -- 全期間の日付範囲を生成（固定範囲）
 , date_range AS (
   SELECT
-    DATE(date_day) AS date_day
+    date_day
   FROM
-    {{ dbt_utils.date_spine(
-        datepart='day',
-        start_date='2000-01-01',
-        end_date='2050-12-31'
-    ) }}
+    UNNEST(GENERATE_DATE_ARRAY('2000-01-01', '2050-12-31', INTERVAL 1 DAY)) AS date_day
 )
 
 -- すべてのticker x ohlc_typeの組み合わせを取得
@@ -61,8 +57,8 @@ ranked_price_data AS (
     toc.ohlc_type
   FROM date_range dr
   CROSS JOIN ticker_ohlc_combinations toc
-  WHERE dr.date_day >= (SELECT MIN(base_date) FROM price_data_raw_weekday)
-    AND dr.date_day <= (SELECT MAX(base_date) FROM price_data_raw_weekday)
+  WHERE dr.date_day >= (SELECT MIN(base_date) FROM price_data_raw_weekday WHERE ticker = toc.ticker)
+    AND dr.date_day <= (SELECT MAX(base_date) FROM price_data_raw_weekday WHERE ticker = toc.ticker)
 
 )
 
