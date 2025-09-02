@@ -34,11 +34,15 @@ dbtプロジェクトのテンプレートリポジトリです。
 - dbtのレポジトリへ移動
 - credentialをセット
   - `set GOOGLE_APPLICATION_CREDENTIALS=C:\Users\hiroa\Documents\credentials\terraform-gha-dev.json`
+  - `set GOOGLE_APPLICATION_CREDENTIALS=C:\Users\hiroa\Documents\credentials\terraform-gha-prod.json`
 - `dbt deps`で依存パッケージをインストール
 - `set PYTHONUTF8=1`でutf8で読み込むように変更
 - コマンド実行
   - analysesのコンパイル
     - `dbt compile --select path:analyses/`
+  - 過去パラメータでrun
+    - `dbt run --target prod --select dwh_daily_position dm_daily_aum dm_daily_all_term_pl dm_daily_position_value --vars "date_1day_ago: 2025-08-30"
+`
 
 ## 🚀 セットアップ
 
