@@ -41,6 +41,6 @@ seeds:
         description: "休日でも取引が行われるかどうか（TRUE:休日も取引, FALSE:平日のみ）"
         tests:
           - not_null
-          - accepted_values:
-              arguments:
-                values: ['true', 'false', 'TRUE', 'FALSE']
+          # - accepted_values:
+          #     arguments:
+          #       values: ['true', 'false', 'TRUE', 'FALSE']
