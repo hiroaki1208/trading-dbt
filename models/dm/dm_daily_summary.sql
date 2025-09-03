@@ -18,9 +18,12 @@ WITH
 -- ソート順付き
 ticker_list_data AS (
   SELECT
-    *,
+    t0.*,
+    t1.asset_name,
+    t1.is_active_holiday,
     DATE('{{ date_1day_ago }}') AS base_date
-  FROM {{ ref('dim_summary_ticker_list') }}
+  FROM {{ ref('dim_summary_ticker_list') }} t0
+    LEFT JOIN {{ ref('ref_ticker_info') }} t1 USING (ticker)
 )
 
 -- close価格取得
@@ -60,7 +63,6 @@ ticker_list_data AS (
 -- 差分、変化率を取得
 SELECT
   t0.*,
-  t5.asset_name,
   t1.price AS price_recent_date,
   t2.price AS price_prev_date,
   t3.price AS price_7day_ago,
@@ -78,4 +80,3 @@ FROM add_ndays_ago_date t0
   LEFT JOIN close_price_data t2 ON t0.ticker = t2.ticker AND t0.prev_date = t2.base_date
   LEFT JOIN close_price_data t3 ON t0.ticker = t3.ticker AND t0.date_7day_ago = t3.base_date
   LEFT JOIN close_price_data t4 ON t0.ticker = t4.ticker AND t0.date_28day_ago = t4.base_date
-  LEFT JOIN {{ ref('dwh_asset_master') }} t5 ON t0.ticker = t5.ticker

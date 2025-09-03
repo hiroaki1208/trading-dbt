@@ -152,6 +152,8 @@ models:
           - not_null
       - name: order_index
         description: "グループ内の表示順序"
+      - name: asset_name
+        description: "アセット名"
         tests:
           - not_null
       - name: is_active_holiday
@@ -176,10 +178,6 @@ models:
           - not_null
       - name: date_28day_ago
         description: "28日前の営業日"
-        tests:
-          - not_null
-      - name: asset_name
-        description: "アセット名"
         tests:
           - not_null
       - name: price_recent_date

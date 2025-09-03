@@ -17,6 +17,26 @@ seeds:
         description: "グループ内の表示順序"
         tests:
           - not_null
+
+  - name: ref_ticker_info
+    description: "銘柄の基本情報マスターデータ。銘柄の種別、名称、休日取引の可否を管理"
+    columns:
+      - name: ticker
+        description: "銘柄コード（例：^GSPC, BTC-USD, 2413.T）"
+        tests:
+          - not_null
+          - unique
+      - name: asset_type
+        description: "資産種別（指数, 株, 為替, 金利, Crypto, コモディティ, REIT）"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['指数', '株', '為替', '金利', 'Crypto', 'コモディティ', 'REIT']
+      - name: asset_name
+        description: "銘柄名（例：SP500, エムスリー, USDJPY）"
+        tests:
+          - not_null
       - name: is_active_holiday
         description: "休日でも取引が行われるかどうか（TRUE:休日も取引, FALSE:平日のみ）"
         tests:

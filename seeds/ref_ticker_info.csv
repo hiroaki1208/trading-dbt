@@ -1,0 +1,21 @@
+ticker,asset_type,asset_name,is_active_holiday
+^GSPC,指数,SP500,FALSE
+^DJI,指数,ダウ平均,FALSE
+^NDX,指数,NDX,FALSE
+^RUT,指数,ラッセル平均,FALSE
+^N225,指数,日経平均,FALSE
+^GDAXI,指数,DAX,FALSE
+^FVX,金利,米5年金利,FALSE
+^TNX,金利,米10年金利,FALSE
+^TYX,金利,米30年金利,FALSE
+JPY=X,為替,USDJPY,FALSE
+EURUSD=X,為替,EURUSD,FALSE
+AUDUSD=X,為替,AUDUSD,FALSE
+BTC-USD,Crypto,BTCUSD,TRUE
+ETH-USD,Crypto,ETHUSD,TRUE
+BTC-JPY,Crypto,BTCJPY,TRUE
+ETH-JPY,Crypto,ETHJPY,TRUE
+2413.T,株,エムスリー,FALSE
+1326.T,コモディティ,SPDR Gold Trust,FALSE
+7867.T,株,タカラトミー,FALSE
+3283.T,REIT,日本プロロジスリート投資法人,FALSE
