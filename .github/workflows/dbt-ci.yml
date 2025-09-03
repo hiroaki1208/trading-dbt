@@ -76,6 +76,9 @@ jobs:
       - name: Parse dbt project
         run: dbt parse
 
+      - name: Load seed data
+        run: dbt seed --target $DBT_TARGET
+
       - name: Run dbt models
         run: dbt run --target $DBT_TARGET
 
