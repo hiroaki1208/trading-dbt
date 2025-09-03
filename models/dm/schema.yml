@@ -134,11 +134,71 @@ models:
         description: "全期間における通算PL変化額. (実現済み売却金額 + 含み益) - 総購入金額"
         tests:
           - not_null
-      - name: pl_ratio_all_term
-        description: "全期間における通算PL変化率.%とする場合はx100. (実現済み売却金額 + 含み益) / 総購入金額 -1"
-        tests:
-          - not_null
       - name: partition_date
         description: "基準日（パーティション用）"
         tests:
           - not_null
+
+  - name: dm_daily_summary
+    description: "DM層。各銘柄の価格変化とサマリー情報を日次で集計したテーブル"
+    columns:
+      - name: ticker
+        description: "銘柄コード（例：^GSPC, BTC-USD）"
+        tests:
+          - not_null
+      - name: order_group
+        description: "表示グループ番号（1:株価指数, 2:債券, 3:為替, 4:暗号資産, 5:個別株）"
+        tests:
+          - not_null
+      - name: order_index
+        description: "グループ内の表示順序"
+        tests:
+          - not_null
+      - name: is_active_holiday
+        description: "休日でも取引が行われるかどうか（TRUE:休日も取引, FALSE:平日のみ）"
+        tests:
+          - not_null
+      - name: base_date
+        description: "基準日（パーティション用）"
+        tests:
+          - not_null
+      - name: recent_date
+        description: "直近の取引日"
+        tests:
+          - not_null
+      - name: prev_date
+        description: "前営業日"
+        tests:
+          - not_null
+      - name: date_7day_ago
+        description: "7日前の営業日"
+        tests:
+          - not_null
+      - name: date_28day_ago
+        description: "28日前の営業日"
+        tests:
+          - not_null
+      - name: asset_name
+        description: "アセット名"
+        tests:
+          - not_null
+      - name: price_recent_date
+        description: "直近取引日の終値"
+      - name: price_prev_date
+        description: "前営業日の終値"
+      - name: price_7day_ago
+        description: "7日前営業日の終値"
+      - name: price_28day_ago
+        description: "28日前営業日の終値"
+      - name: diff_recent_prev
+        description: "直近価格と前営業日価格の差分"
+      - name: diff_recent_7day
+        description: "直近価格と7日前価格の差分"
+      - name: diff_recent_28day
+        description: "直近価格と28日前価格の差分"
+      - name: rate_recent_prev
+        description: "直近価格の前営業日からの変化率（実数なので、%とする場合は100倍すること）"
+      - name: rate_recent_7day
+        description: "直近価格の7日前からの変化率（実数なので、%とする場合は100倍すること）"
+      - name: rate_recent_28day
+        description: "直近価格の28日前からの変化率（実数なので、%とする場合は100倍すること）"
