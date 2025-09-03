@@ -78,5 +78,5 @@ FROM add_ndays_ago_date t0
   LEFT JOIN close_price_data t2 ON t0.ticker = t2.ticker AND t0.prev_date = t2.base_date
   LEFT JOIN close_price_data t3 ON t0.ticker = t3.ticker AND t0.date_7day_ago = t3.base_date
   LEFT JOIN close_price_data t4 ON t0.ticker = t4.ticker AND t0.date_28day_ago = t4.base_date
-  LEFT JOIN {{ ref('dwh_asset_master') }} t5 using (ticker)
+  LEFT JOIN {{ ref('dwh_asset_master') }} t5 ON t0.ticker = t5.ticker
 ORDER BY order_group, order_index
