@@ -114,3 +114,16 @@ models:
         tests:
           - not_null
 
+  - name: dwh_close_price_history
+    description: "DWH層。価格履歴。Close priceのみ。休日取引ないものは平日のみレコードあり。また、祝日の場合は、前日の値で補完している"
+    columns:
+      - name: base_date
+        description: "価格基準日"
+      - name: ticker
+        description: "ticker名"
+      - name: ohlc_type
+        description: "価格種別(Open/High/Low/Close)"
+      - name: price
+        description: "価格"
+      - name: fetch_time_jst
+        description: "データ取得日時(JST)"
