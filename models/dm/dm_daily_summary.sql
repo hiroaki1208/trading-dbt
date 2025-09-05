@@ -20,7 +20,7 @@ ticker_list_data AS (
   SELECT
     t0.*,
     t1.asset_name,
-    t1.is_active_holiday,
+    t1.is_active_weekend,
     DATE('{{ date_1day_ago }}') AS base_date
   FROM {{ ref('dim_summary_ticker_list') }} t0
     LEFT JOIN {{ ref('ref_ticker_info') }} t1 USING (ticker)
@@ -40,21 +40,21 @@ ticker_list_data AS (
   SELECT
     t0.*,
     CASE
-      WHEN t0.is_active_holiday THEN t0.base_date
-      WHEN NOT t0.is_active_holiday THEN {{ to_prev_weekday('t0.base_date') }} 
+      WHEN t0.is_active_weekend THEN t0.base_date
+      WHEN NOT t0.is_active_weekend THEN {{ to_prev_weekday('t0.base_date') }} 
     END AS recent_date,
     CASE
-      WHEN t0.is_active_holiday THEN DATE_SUB(t0.base_date, INTERVAL 1 DAY)
-      WHEN NOT t0.is_active_holiday AND EXTRACT(DAYOFWEEK FROM base_date) IN (1, 7) THEN DATE_SUB({{ to_prev_weekday('t0.base_date') }}, INTERVAL 1 DAY)
-      WHEN NOT t0.is_active_holiday AND EXTRACT(DAYOFWEEK FROM base_date) NOT IN (1, 7) THEN {{ to_prev_weekday('DATE_SUB(t0.base_date, INTERVAL 1 DAY)') }}
+      WHEN t0.is_active_weekend THEN DATE_SUB(t0.base_date, INTERVAL 1 DAY)
+      WHEN NOT t0.is_active_weekend AND EXTRACT(DAYOFWEEK FROM base_date) IN (1, 7) THEN DATE_SUB({{ to_prev_weekday('t0.base_date') }}, INTERVAL 1 DAY)
+      WHEN NOT t0.is_active_weekend AND EXTRACT(DAYOFWEEK FROM base_date) NOT IN (1, 7) THEN {{ to_prev_weekday('DATE_SUB(t0.base_date, INTERVAL 1 DAY)') }}
     END AS prev_date,
     CASE
-      WHEN t0.is_active_holiday THEN DATE_SUB(t0.base_date, INTERVAL 7 DAY)
-      WHEN NOT t0.is_active_holiday THEN {{ to_prev_weekday('DATE_SUB(t0.base_date, INTERVAL 7 DAY)') }}
+      WHEN t0.is_active_weekend THEN DATE_SUB(t0.base_date, INTERVAL 7 DAY)
+      WHEN NOT t0.is_active_weekend THEN {{ to_prev_weekday('DATE_SUB(t0.base_date, INTERVAL 7 DAY)') }}
     END AS date_7day_ago,
     CASE
-      WHEN t0.is_active_holiday THEN DATE_SUB(t0.base_date, INTERVAL 28 DAY)
-      WHEN NOT t0.is_active_holiday THEN {{ to_prev_weekday('DATE_SUB(t0.base_date, INTERVAL 28 DAY)') }}
+      WHEN t0.is_active_weekend THEN DATE_SUB(t0.base_date, INTERVAL 28 DAY)
+      WHEN NOT t0.is_active_weekend THEN {{ to_prev_weekday('DATE_SUB(t0.base_date, INTERVAL 28 DAY)') }}
     END AS date_28day_ago,
   FROM ticker_list_data t0
 )

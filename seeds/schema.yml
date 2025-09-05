@@ -37,7 +37,7 @@ seeds:
         description: "銘柄名（例：SP500, エムスリー, USDJPY）"
         tests:
           - not_null
-      - name: is_active_holiday
+      - name: is_active_weekend
         description: "休日でも取引が行われるかどうか（TRUE:休日も取引, FALSE:平日のみ）"
         tests:
           - not_null
