@@ -22,6 +22,6 @@ SELECT
   t0.event_time_jst AS latest_status_chg_time_jst
 FROM
   add_rn t0
-  LEFT JOIN {{ ref('stg_asset_name_master') }} t1 ON t0.ticker = t1.ticker
+  LEFT JOIN {{ ref('ref_ticker_info') }} t1 ON t0.ticker = t1.ticker
 WHERE
   rn = 1
