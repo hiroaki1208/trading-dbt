@@ -66,7 +66,7 @@ models:
           # - is_datetime
 
   - name: dwh_price_history
-    description: "DWH層。価格履歴"
+    description: "DWH層。価格履歴。OHLCデータを格納。休日取引ないものは平日のみレコードあり。また、祝日の場合は、前日の値で補完している"
     columns:
       - name: base_date
         description: "価格基準日"
@@ -82,8 +82,8 @@ models:
           - not_null
       - name: price
         description: "価格"
-        # tests:
-          # - not_null
+        tests:
+          - not_null
       - name: fetch_time_jst
         description: "データ取得日時(JST)"
         tests:

@@ -1,4 +1,3 @@
--- 基準日のClose時点でのポジション&含み益を算出
 {%- set date_1day_ago = var('date_1day_ago', '9999-12-31') -%}
 
 SELECT
@@ -13,7 +12,13 @@ SELECT
   (t1.price - t0.avg_buy_price) / t0.avg_buy_price AS unrealized_return_ratio, -- 含み益率(%)
   DATE('{{ date_1day_ago }}') AS partition_date
 FROM
-  {{ ref('dwh_price_history') }} t0
+  {{ ref('dwh_daily_position') }} t0
+  LEFT JOIN (
+    SELECT *
+    FROM {{ ref('dwh_price_history') }}
+    WHERE base_date = DATE('{{ date_1day_ago }}') and ohlc_type = 'close'
+  ) t1 using (ticker)
+  LEFT JOIN {{ ref('dwh_asset_master') }} t2 using (ticker)
 WHERE
   t0.partition_date = DATE('{{ date_1day_ago }}')
 
