@@ -1,6 +1,6 @@
 {{ config(
     materialized='incremental',
-    unique_key=['ticker', 'base_date'],
+    unique_key=['ticker', 'base_date', 'ohlc_type'],
     partition_by={
         "field": "base_date",
         "data_type": "date"
@@ -33,7 +33,7 @@ ranked_price_data AS (
 )
 
 , price_data_raw_weekday AS (
-  SELECT
+  SELECT DISTINCT
     base_date,
     ticker,
     ohlc_type,
@@ -117,8 +117,8 @@ ranked_price_data AS (
     usdjpy.price AS price_raw_usdjpy,
     btcusd.fetch_time_jst
   FROM
-    (SELECT * FROM price_data_raw_daily WHERE ticker = 'BTC-USD' AND ohlc_type = 'close') btcusd
-    LEFT JOIN (SELECT * FROM price_data_raw_daily WHERE ticker = 'JPY=X' AND ohlc_type = 'close') usdjpy USING (base_date)
+    (SELECT base_date, price, fetch_time_jst FROM price_data_raw_daily WHERE ticker = 'BTC-USD' AND ohlc_type = 'close') btcusd
+    LEFT JOIN (SELECT base_date, price FROM price_data_raw_daily WHERE ticker = 'JPY=X' AND ohlc_type = 'close') usdjpy USING (base_date)
 )
 
 , add_data_btcjpy AS (
@@ -146,8 +146,8 @@ ranked_price_data AS (
     usdjpy.price AS price_raw_usdjpy,
     ethusd.fetch_time_jst
   FROM
-    (SELECT * FROM price_data_raw_daily WHERE ticker = 'ETH-USD' AND ohlc_type = 'close') ethusd
-    LEFT JOIN (SELECT * FROM price_data_raw_daily WHERE ticker = 'JPY=X' AND ohlc_type = 'close') usdjpy USING (base_date)
+    (SELECT base_date, price, fetch_time_jst FROM price_data_raw_daily WHERE ticker = 'ETH-USD' AND ohlc_type = 'close') ethusd
+    LEFT JOIN (SELECT base_date, price FROM price_data_raw_daily WHERE ticker = 'JPY=X' AND ohlc_type = 'close') usdjpy USING (base_date)
 )
 
 , add_data_ethjpy AS (
