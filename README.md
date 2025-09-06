@@ -41,8 +41,9 @@ dbtプロジェクトのテンプレートリポジトリです。
   - analysesのコンパイル
     - `dbt compile --select path:analyses/`
   - 過去パラメータでrun
-    - `dbt run --target prod --select dwh_daily_position dm_daily_aum dm_daily_all_term_pl dm_daily_position_value --vars "date_1day_ago: 2025-08-30"
-`
+    - `dbt run --target prod --select dwh_daily_position dm_daily_aum dm_daily_all_term_pl dm_daily_position_value --vars "date_1day_ago: 2025-08-30"`
+    - `dbt run --select dwh_price_history --vars "{""date_28day_ago"": ""2025-07-01"", ""date_3day_ago"": ""2025-08-01"", ""date_1day_ago"": ""2025-08-31""}"`
+    - `dbt run --select dwh_price_history --vars "{"date_28day_ago": "2025-07-01", "date_3day_ago": "2025-08-01", "date_1day_ago": "2025-08-31"}" && dbt test --select dwh_price_history --vars "{"date_28day_ago": "2025-07-01", "date_3day_ago": "2025-08-01", "date_1day_ago": "2025-08-31"}"`
 
 ## 🚀 セットアップ
 
