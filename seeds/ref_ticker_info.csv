@@ -1,4 +1,4 @@
-ticker,asset_type,asset_name,is_active_holiday
+ticker,asset_type,asset_name,is_active_weekend
 ^GSPC,指数,SP500,FALSE
 ^DJI,指数,ダウ平均,FALSE
 ^NDX,指数,NDX,FALSE

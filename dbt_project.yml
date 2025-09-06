@@ -26,7 +26,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 vars:
   execute_date: "{{ (modules.datetime.datetime.utcnow() + modules.datetime.timedelta(hours=9)).strftime('%Y-%m-%d') }}"
   date_1day_ago: "{{ (modules.datetime.datetime.utcnow() + modules.datetime.timedelta(hours=9) - modules.datetime.timedelta(days=1)).strftime('%Y-%m-%d') }}"
+  date_3day_ago: "{{ (modules.datetime.datetime.utcnow() + modules.datetime.timedelta(hours=9) - modules.datetime.timedelta(days=3)).strftime('%Y-%m-%d') }}"
   date_7day_ago: "{{ (modules.datetime.datetime.utcnow() + modules.datetime.timedelta(hours=9) - modules.datetime.timedelta(days=7)).strftime('%Y-%m-%d') }}"
+  date_28day_ago: "{{ (modules.datetime.datetime.utcnow() + modules.datetime.timedelta(hours=9) - modules.datetime.timedelta(days=28)).strftime('%Y-%m-%d') }}"
 
 
 # Configuring models
