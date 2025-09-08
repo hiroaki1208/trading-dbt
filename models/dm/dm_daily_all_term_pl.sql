@@ -55,7 +55,8 @@ all_trade_data AS (
     t0.asset_type,
     t0.asset_name,
     t0.position,
-    t1.price AS close_price_for_position -- ポジション解消用の終値
+    t1.price AS close_price_for_position, -- ポジション解消用の終値
+    t0.position * t1.price AS position_close_amount -- ポジション解消金額
   FROM
     position_close_data t0
     LEFT JOIN (
