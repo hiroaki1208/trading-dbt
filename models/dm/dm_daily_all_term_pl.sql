@@ -80,4 +80,4 @@ SELECT
   DATE('{{ date_1day_ago }}') AS partition_date
 FROM
   all_trade_data t0
-  LEFT JOIN position_close_data t1 using (account, ticker)
+  LEFT JOIN add_price_data t1 using (account, ticker)
