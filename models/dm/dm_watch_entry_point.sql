@@ -34,11 +34,11 @@ entry_point_data AS (
 )
 
 SELECT
-  t0.entry_price >= t1.price AS is_reached_entry_price,
+  t0.entry_point >= t1.price AS is_reached_entry_price,
   t0.ticker,
   t0.asset_name,
   t0.add_date,
-  t0.entry_price,
+  t0.entry_point,
   t0.memo,
   t0.price_date_for_close AS recent_price_date,
   t1.price AS recent_price,
