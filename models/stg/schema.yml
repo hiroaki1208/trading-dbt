@@ -80,3 +80,19 @@ models:
         description: "データ取得日時(JST)"
         tests:
           - not_null
+
+  - name: stg_entry_point
+    description: "stg層。RAW層で外部テーブルのエントリー水準について型など変換している。"
+    columns:
+      - name: add_date
+        description: "エントリー水準登録日"
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: entry_price
+        description: "エントリー水準価格"
+        tests:
+          - not_null
+      - name: memo
+        description: "メモ"

@@ -58,3 +58,14 @@ sources:
             description: "価格"
           - name: fetch_time_str
             description: "データ取得時刻_文字列(%Y-%m-%d %H:%M:%S)"
+      - name: raw_entry_point
+        description: "エントリー水準の生データ(外部テーブル)"
+        columns:
+          - name: add_date
+            description: "エントリー水準登録日"
+          - name: ticker
+            description: "ticker名"
+          - name: entry_price
+            description: "エントリー水準価格"
+          - name: memo
+            description: "メモ"
