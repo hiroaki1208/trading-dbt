@@ -19,7 +19,7 @@ ticker_list_data AS (
     t0.*,
     t1.asset_name,
     t1.is_active_weekend,
-    if(t1.is_active_weekend, DATE('{{ date_1day_ago }}'), {{ to_prev_weekday("DATE('{{ date_1day_ago }}')") }}) AS price_date_for_close
+    if(t1.is_active_weekend, DATE('{{ date_1day_ago }}'), {{ to_prev_weekday("DATE('" + date_1day_ago + "')") }}) AS price_date_for_close
   FROM {{ ref('dim_max_price') }} t0
     LEFT JOIN {{ ref('ref_ticker_info') }} t1 USING (ticker)
 )
