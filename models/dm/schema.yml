@@ -200,3 +200,63 @@ models:
         description: "直近価格の7日前からの変化率（実数なので、%とする場合は100倍すること）"
       - name: rate_recent_28day
         description: "直近価格の28日前からの変化率（実数なので、%とする場合は100倍すること）"
+
+  - name: dm_max_price_monitor
+    description: "DM層。一定期間内の最高値との差分を日次で集計したテーブル"
+    columns:
+      - name: order_group
+        description: "表示グループ番号（1:株価指数, 2:債券, 3:為替, 4:暗号資産, 5:個別株）"
+      - name: order_index
+        description: "グループ内の表示順序"
+      - name: ticker
+        description: "銘柄コード（例：^GSPC, BTC-USD）"
+      - name: asset_name
+        description: "アセット名"
+      - name: recent_price_date
+        description: "直近価格日"
+      - name: recent_price
+        description: "直近価格"
+      - name: max_price_3month
+        description: "3カ月以内の最高値"
+      - name: max_price_date_3month
+        description: "3カ月以内の最高値の日付"
+      - name: max_price_6month
+        description: "6カ月以内の最高値"
+      - name: max_price_date_6month
+        description: "6カ月以内の最高値の日付"
+      - name: max_price_1year
+        description: "1年以内の最高値"
+      - name: max_price_date_1year
+        description: "1年以内の最高値の日付"
+      - name: base_date
+        description: "基準日（パーティション用）"
+
+  - name: dm_watch_entry_point
+    description: "DM層。ウォッチしている銘柄のエントリー水準と直近価格を日次で集計したテーブル"
+    columns:
+      - name: is_reached_entry_price
+        description: "直近価格がエントリー水準に到達しているかどうか（TRUE:到達, FALSE:未到達）"
+      - name: ticker
+        description: "ticker名"
+        tests:
+          - not_null
+      - name: asset_name
+        description: "アセット名"
+      - name: add_date
+        description: "エントリー水準登録日"
+        tests:
+          - not_null
+      - name: entry_price
+        description: "エントリー水準価格"
+        tests:
+          - not_null
+      - name: memo
+        description: "メモ"
+      - name: recent_price_date
+        description: "直近価格日"
+      - name: recent_price
+        description: "直近価格"
+        tests:
+          - not_null
+      - name: base_date
+        description: "基準日（パーティション用）"
